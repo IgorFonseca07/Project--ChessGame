@@ -14,5 +14,10 @@ namespace Project__ChessGame.chessboard
             Columns = columns;
             ChessPieces = new ChessPiece[rows, columns];
         }
+
+        public ChessPiece chessPiece(int row, int column)
+        {
+            return ChessPieces[row, column];
+        }
     }
 }

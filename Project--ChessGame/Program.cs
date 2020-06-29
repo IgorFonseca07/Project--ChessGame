@@ -9,6 +9,8 @@ namespace Project__ChessGame
         {
             Chessboard chessboard = new Chessboard(8, 8);
 
+            Screen.PrintChessboard(chessboard);
+
             Console.ReadLine();
         }
     }
