@@ -1,4 +1,4 @@
-﻿using Project__ChessGame.Chessboard;
+﻿using Project__ChessGame.chessboard;
 using System;
 
 namespace Project__ChessGame
@@ -7,9 +7,9 @@ namespace Project__ChessGame
     {
         static void Main(string[] args)
         {
-            Position P = new Position(3, 4);
+            Chessboard chessboard = new Chessboard(8, 8);
 
-            Console.WriteLine("Position: " + P);
+            Console.ReadLine();
         }
     }
 }

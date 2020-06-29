@@ -1,4 +1,4 @@
-﻿namespace Project__ChessGame.Chessboard
+﻿namespace Project__ChessGame.chessboard
 {
     class Position
     {
