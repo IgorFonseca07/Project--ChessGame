@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace Project__ChessGame.chessboard
+﻿namespace Project__ChessGame.chessboard
 {
     class Chessboard
     {
@@ -18,6 +16,12 @@ namespace Project__ChessGame.chessboard
         public ChessPiece chessPiece(int row, int column)
         {
             return ChessPieces[row, column];
+        }
+
+        public void ChessPiecePosition(ChessPiece chessPiece, Position position)
+        {
+            ChessPieces[position.Row, position.Column] = chessPiece;
+            chessPiece.Position = position;
         }
     }
 }
