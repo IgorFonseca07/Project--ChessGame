@@ -9,15 +9,21 @@ namespace Project__ChessGame
     {
         static void Main(string[] args)
         {
-            Chessboard chessboard = new Chessboard(8, 8);
 
-            chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(0, 0));
-            chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(1, 3));
-            chessboard.ChessPiecePosition(new King(Color.Black, chessboard), new Position(2, 4));
+            try
+            {
+                Chessboard chessboard = new Chessboard(8, 8);
 
-            Screen.PrintChessboard(chessboard);
+                chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(0, 0));
+                chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(1, 3));
+                chessboard.ChessPiecePosition(new King(Color.Black, chessboard), new Position(0, 2));
 
-            Console.ReadLine();
+                Screen.PrintChessboard(chessboard);
+            }
+            catch (ChessboardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

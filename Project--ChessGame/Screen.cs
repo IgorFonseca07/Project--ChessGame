@@ -12,13 +12,13 @@ namespace Project__ChessGame
             {
                 for (int j = 0; j < chessboard.Columns; j++)
                 {
-                    if (chessboard.chessPiece(i, j) == null)
+                    if (chessboard.ChessPiece(i, j) == null)
                     {
                         Console.Write("- ");
                     }
                     else
                     {
-                        Console.Write(chessboard.chessPiece(i, j) + " ");
+                        Console.Write(chessboard.ChessPiece(i, j) + " ");
                     }
                 }
                 Console.WriteLine();
