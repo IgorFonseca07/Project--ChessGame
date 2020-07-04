@@ -19,6 +19,12 @@ namespace Project__ChessGame
                 chessboard.ChessPiecePosition(new King(Color.Black, chessboard), new Position(0, 2));
 
                 Screen.PrintChessboard(chessboard);
+
+                ChessPosition chessPosition = new ChessPosition('C', 7);
+
+                Console.WriteLine(chessPosition);
+
+                Console.WriteLine(chessPosition.ToPosition());
             }
             catch (ChessboardException e)
             {
