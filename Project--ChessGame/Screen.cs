@@ -1,4 +1,5 @@
 ﻿using System;
+using Project__ChessGame.chess;
 using Project__ChessGame.chessboard;
 using Project__ChessGame.chessboard.Enums;
 
@@ -28,6 +29,14 @@ namespace Project__ChessGame
             }
             Console.WriteLine();
             Console.WriteLine("    A B C D E F G H");
+        }
+
+        public static ChessPosition ReadChessPosition()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int row = int.Parse(s[1] + "");
+            return new ChessPosition(column, row);
         }
 
         public static void PrintChessPiece(ChessPiece chessPiece)

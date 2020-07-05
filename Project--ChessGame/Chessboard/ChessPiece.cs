@@ -16,5 +16,10 @@ namespace Project__ChessGame.chessboard
             QuantityMovements = 0;
             Chessboard = chessboard;
         }
+
+        public void IncreaseQuantityMovements()
+        {
+            QuantityMovements++;
+        }
     }
 }

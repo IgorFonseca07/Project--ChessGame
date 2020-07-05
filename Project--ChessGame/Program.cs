@@ -12,22 +12,24 @@ namespace Project__ChessGame
 
             try
             {
-                Chessboard chessboard = new Chessboard(8, 8);
+                ChessMatch match = new ChessMatch();
 
-                chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(0, 0));
-                chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(1, 3));
-                chessboard.ChessPiecePosition(new King(Color.Black, chessboard), new Position(0, 2));
-                chessboard.ChessPiecePosition(new King(Color.White, chessboard), new Position(7, 3));
+                while (!match.GameOver)
+                {
+                    Console.Clear();
+                    Screen.PrintChessboard(match.Chessboard);
 
+                    Console.WriteLine();
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadChessPosition().ToPosition();
+                    Console.Write("Destiny: ");
+                    Position destiny = Screen.ReadChessPosition().ToPosition();
 
-                Screen.PrintChessboard(chessboard);
-
-                ChessPosition chessPosition = new ChessPosition('C', 7);
-
-                Console.WriteLine(chessPosition);
-
-                Console.WriteLine(chessPosition.ToPosition());
+                    match.MakeTheMove(origin, destiny);
+                }
+            
             }
+
             catch (ChessboardException e)
             {
                 Console.WriteLine(e.Message);
