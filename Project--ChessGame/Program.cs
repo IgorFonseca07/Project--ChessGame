@@ -17,6 +17,8 @@ namespace Project__ChessGame
                 chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(0, 0));
                 chessboard.ChessPiecePosition(new Rook(Color.Black, chessboard), new Position(1, 3));
                 chessboard.ChessPiecePosition(new King(Color.Black, chessboard), new Position(0, 2));
+                chessboard.ChessPiecePosition(new King(Color.White, chessboard), new Position(7, 3));
+
 
                 Screen.PrintChessboard(chessboard);
 
