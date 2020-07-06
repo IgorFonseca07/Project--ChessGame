@@ -2,7 +2,7 @@
 
 namespace Project__ChessGame.chessboard
 {
-    class ChessPiece
+    abstract class ChessPiece
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -21,5 +21,7 @@ namespace Project__ChessGame.chessboard
         {
             QuantityMovements++;
         }
+
+        public abstract bool[,] PossibleMovements();
     }
 }
