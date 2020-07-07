@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Project__ChessGame.chess;
 using Project__ChessGame.chessboard;
 using Project__ChessGame.chessboard.Enums;
@@ -7,6 +8,39 @@ namespace Project__ChessGame
 {
     class Screen
     {
+        public static void PrintMatch(ChessMatch match)
+        {
+            PrintChessboard(match.Chessboard);
+            Console.WriteLine();
+            PrintRemovedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + match.Turn);
+            Console.WriteLine("Move: " + match.CurrentPlayer);
+        }
+
+        public static void PrintRemovedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Removed pieces:");
+            Console.Write("White: ");
+            PrintGroup(match.RemovedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Black: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            PrintGroup(match.RemovedPieces(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+
+        public static void PrintGroup(HashSet<ChessPiece> group)
+        {
+            Console.Write("[");
+            foreach (ChessPiece x in group)
+            {
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
 
         public static void PrintChessboard(Chessboard chessboard)
         {
