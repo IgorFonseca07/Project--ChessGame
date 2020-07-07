@@ -6,8 +6,8 @@ namespace Project__ChessGame.chess
     class ChessMatch
     {
         public Chessboard Chessboard { get; private set; }
-        private int Turn;
-        private Color CurrentPlayer;
+        public int Turn { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public bool GameOver { get; private set; }
 
         public ChessMatch()
@@ -25,6 +25,49 @@ namespace Project__ChessGame.chess
             cp.IncreaseQuantityMovements();
             ChessPiece capturedPiece = Chessboard.RemoveChessPiece(destiny);
             Chessboard.ChessPiecePosition(cp, destiny);
+        }
+
+        public void DoTheMove(Position origin, Position destiny)
+        {
+            MakeTheMove(origin, destiny);
+            Turn++;
+            ChangePlayer();
+        }
+
+        public void OriginPositionValidate(Position position)
+        {
+            if (Chessboard.ChessPiece(position) == null)
+            {
+                throw new ChessboardException("There is no chess piece on this position!");
+            }
+            if (CurrentPlayer != Chessboard.ChessPiece(position).Color)
+            {
+                throw new ChessboardException("The origin chess piece is not yours!");
+            }
+            if (!Chessboard.ChessPiece(position).IsTherePossibleMovements())
+            {
+                throw new ChessboardException("There is no possible movements to this origin chess piece!");
+            }
+        }
+
+        public void DestinyPositionValidate(Position origin, Position destiny)
+        {
+            if (!Chessboard.ChessPiece(origin).CanMoveTo(destiny))
+            {
+                throw new ChessboardException("Invalid destiny position!");
+            }
+        }
+
+        private void ChangePlayer()
+        {
+            if (CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
         }
 
         private void ChessPiecesPositions()

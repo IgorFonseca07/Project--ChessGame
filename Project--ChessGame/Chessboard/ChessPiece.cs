@@ -22,6 +22,27 @@ namespace Project__ChessGame.chessboard
             QuantityMovements++;
         }
 
+        public bool IsTherePossibleMovements()
+        {
+            bool[,] array = PossibleMovements();
+            for (int i = 0; i < Chessboard.Rows; i++)
+            {
+                for (int j = 0; j < Chessboard.Columns; j++)
+                {
+                    if (array[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(Position position)
+        {
+            return PossibleMovements()[position.Row, position.Column];
+        }
+
         public abstract bool[,] PossibleMovements();
     }
 }
