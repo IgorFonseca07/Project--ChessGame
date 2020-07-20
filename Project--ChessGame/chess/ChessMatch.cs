@@ -224,19 +224,39 @@ namespace Project__ChessGame.chess
 
         private void ChessPiecesPositions()
         {
-            NewChessPiecePosition('C', 1, new Rook(Color.White, Chessboard));
-            NewChessPiecePosition('C', 2, new Rook(Color.White, Chessboard));
-            NewChessPiecePosition('D', 2, new Rook(Color.White, Chessboard));
-            NewChessPiecePosition('E', 2, new Rook(Color.White, Chessboard));
-            NewChessPiecePosition('E', 1, new Rook(Color.White, Chessboard));
-            NewChessPiecePosition('D', 1, new King(Color.White, Chessboard));
+            NewChessPiecePosition('A', 1, new Rook(Color.White, Chessboard));
+            NewChessPiecePosition('B', 1, new Knight(Color.White, Chessboard));
+            NewChessPiecePosition('C', 1, new Bishop(Color.White, Chessboard));
+            NewChessPiecePosition('D', 1, new Queen(Color.White, Chessboard));
+            NewChessPiecePosition('E', 1, new King(Color.White, Chessboard));
+            NewChessPiecePosition('F', 1, new Bishop(Color.White, Chessboard));
+            NewChessPiecePosition('G', 1, new Knight(Color.White, Chessboard));
+            NewChessPiecePosition('H', 1, new Rook(Color.White, Chessboard));
+            NewChessPiecePosition('A', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('B', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('C', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('D', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('E', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('F', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('G', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('H', 2, new Pawn(Color.White, Chessboard));
 
-            NewChessPiecePosition('C', 7, new Rook(Color.Black, Chessboard));
-            NewChessPiecePosition('C', 8, new Rook(Color.Black, Chessboard));
-            NewChessPiecePosition('D', 7, new Rook(Color.Black, Chessboard));
-            NewChessPiecePosition('E', 7, new Rook(Color.Black, Chessboard));
-            NewChessPiecePosition('E', 8, new Rook(Color.Black, Chessboard));
-            NewChessPiecePosition('D', 8, new King(Color.Black, Chessboard));
+            NewChessPiecePosition('A', 8, new Rook(Color.Black, Chessboard));
+            NewChessPiecePosition('B', 8, new Knight(Color.Black, Chessboard));
+            NewChessPiecePosition('C', 8, new Bishop(Color.Black, Chessboard));
+            NewChessPiecePosition('D', 8, new Queen(Color.Black, Chessboard));
+            NewChessPiecePosition('E', 8, new King(Color.Black, Chessboard));
+            NewChessPiecePosition('F', 8, new Bishop(Color.Black, Chessboard));
+            NewChessPiecePosition('G', 8, new Knight(Color.Black, Chessboard));
+            NewChessPiecePosition('H', 8, new Rook(Color.Black, Chessboard));
+            NewChessPiecePosition('A', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('B', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('C', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('D', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('E', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('F', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('G', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('H', 7, new Pawn(Color.Black, Chessboard));
         }
     }
 }
