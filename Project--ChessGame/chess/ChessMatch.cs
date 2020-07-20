@@ -98,7 +98,7 @@ namespace Project__ChessGame.chess
 
         public void DestinyPositionValidate(Position origin, Position destiny)
         {
-            if (!Chessboard.ChessPiece(origin).CanMoveTo(destiny))
+            if (!Chessboard.ChessPiece(origin).PossibleMovement(destiny))
             {
                 throw new ChessboardException("Invalid destiny position!");
             }
