@@ -44,7 +44,8 @@ namespace Project__ChessGame
                         Console.ReadLine();
                     }
                 }
-            
+                Console.Clear();
+                Screen.PrintMatch(match);
             }
 
             catch (ChessboardException e)

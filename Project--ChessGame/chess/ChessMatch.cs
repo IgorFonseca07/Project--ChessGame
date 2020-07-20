@@ -54,8 +54,6 @@ namespace Project__ChessGame.chess
         public void DoTheMove(Position origin, Position destiny)
         {
             ChessPiece capturedPiece = MakeTheMove(origin, destiny);
-
-
             if (IsOnCheck(CurrentPlayer))
             {
                 UndoMove(origin, destiny, capturedPiece);
@@ -71,9 +69,15 @@ namespace Project__ChessGame.chess
                 Check = false;
             }
 
-
-            Turn++;
-            ChangePlayer();
+            if (IsOnCheckmate(Opponent(CurrentPlayer)))
+            {
+                GameOver = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
         }
 
         public void OriginPositionValidate(Position position)
@@ -179,6 +183,37 @@ namespace Project__ChessGame.chess
                 }
             }
             return false;
+        }
+
+        public bool IsOnCheckmate(Color color)
+        {
+            if (!IsOnCheck(color))
+            {
+                return false;
+            }
+            foreach (ChessPiece x in PiecesOnGame(color))
+            {
+                bool[,] array = x.PossibleMovements();
+                for (int i = 0; i < Chessboard.Rows; i++)
+                {
+                    for (int j = 0; j < Chessboard.Columns; j++)
+                    {
+                        if (array[i, j])
+                        {
+                            Position origin = x.Position;
+                            Position destiny = new Position(i, j);
+                            ChessPiece capturedPiece = MakeTheMove(origin, destiny);
+                            bool check = IsOnCheck(color);
+                            UndoMove(origin, destiny, capturedPiece);
+                            if (!check)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void NewChessPiecePosition(char column, int row, ChessPiece chessPiece)

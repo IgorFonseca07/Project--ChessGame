@@ -15,10 +15,18 @@ namespace Project__ChessGame
             PrintRemovedPieces(match);
             Console.WriteLine();
             Console.WriteLine("Turn: " + match.Turn);
-            Console.WriteLine("Move: " + match.CurrentPlayer);
-            if (match.Check)
+            if (!match.GameOver)
             {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine("Move: " + match.CurrentPlayer);
+                if (match.Check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + match.CurrentPlayer);
             }
         }
 
