@@ -10,6 +10,7 @@ namespace Project__ChessGame.chess
         public int Turn { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool GameOver { get; private set; }
+        public bool Check { get; private set; }
         private HashSet<ChessPiece> ChessPieces;
         private HashSet<ChessPiece> RemovedChessPieces;
 
@@ -19,12 +20,13 @@ namespace Project__ChessGame.chess
             Turn = 1;
             CurrentPlayer = Color.White;
             GameOver = false;
+            Check = false;
             ChessPieces = new HashSet<ChessPiece>();
             RemovedChessPieces = new HashSet<ChessPiece>();
             ChessPiecesPositions();
         }
 
-        public void MakeTheMove(Position origin, Position destiny)
+        public ChessPiece MakeTheMove(Position origin, Position destiny)
         {
             ChessPiece cp = Chessboard.RemoveChessPiece(origin);
             cp.IncreaseQuantityMovements();
@@ -34,11 +36,42 @@ namespace Project__ChessGame.chess
             {
                 RemovedChessPieces.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+
+        public void UndoMove(Position origin, Position destiny, ChessPiece capturedPiece)
+        {
+            ChessPiece cp = Chessboard.RemoveChessPiece(destiny);
+            cp.DecrementQuantityMovements();
+            if (capturedPiece != null)
+            {
+                Chessboard.ChessPiecePosition(capturedPiece, destiny);
+                RemovedChessPieces.Remove(capturedPiece);
+            }
+            Chessboard.ChessPiecePosition(cp, origin);
         }
 
         public void DoTheMove(Position origin, Position destiny)
         {
-            MakeTheMove(origin, destiny);
+            ChessPiece capturedPiece = MakeTheMove(origin, destiny);
+
+
+            if (IsOnCheck(CurrentPlayer))
+            {
+                UndoMove(origin, destiny, capturedPiece);
+                throw new ChessboardException("You cannot put yourself on check!");
+            }
+
+            if (IsOnCheck(Opponent(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
+
             Turn++;
             ChangePlayer();
         }
@@ -104,6 +137,48 @@ namespace Project__ChessGame.chess
             }
             aux.ExceptWith(RemovedPieces(color));
             return aux;
+        }
+
+        private Color Opponent(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private ChessPiece King(Color color)
+        {
+            foreach (ChessPiece x in PiecesOnGame(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsOnCheck(Color color)
+        {
+            ChessPiece K = King(color);
+            if (K == null)
+            {
+                throw new ChessboardException("There is no " + color + " king on the chessboard!");
+            }
+            foreach (ChessPiece x in PiecesOnGame(Opponent(color)))
+            {
+                bool[,] array = x.PossibleMovements();
+                if (array[K.Position.Row, K.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void NewChessPiecePosition(char column, int row, ChessPiece chessPiece)

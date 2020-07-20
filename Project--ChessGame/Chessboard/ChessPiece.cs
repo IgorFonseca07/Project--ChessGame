@@ -22,6 +22,11 @@ namespace Project__ChessGame.chessboard
             QuantityMovements++;
         }
 
+        public void DecrementQuantityMovements()
+        {
+            QuantityMovements--;
+        }
+
         public bool IsTherePossibleMovements()
         {
             bool[,] array = PossibleMovements();
