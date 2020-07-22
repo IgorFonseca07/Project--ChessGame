@@ -36,6 +36,27 @@ namespace Project__ChessGame.chess
             {
                 RemovedChessPieces.Add(capturedPiece);
             }
+
+            // #SpecialMove Small Castle
+            if (cp is King && destiny.Column == origin.Column + 2)
+            {
+                Position originR = new Position(origin.Row, origin.Column + 3);
+                Position destinyR = new Position(origin.Row, origin.Column + 1);
+                ChessPiece r = Chessboard.RemoveChessPiece(originR);
+                r.IncreaseQuantityMovements();
+                Chessboard.ChessPiecePosition(r, destinyR);
+            }
+
+            // #SpecialMove Big Castle
+            if (cp is King && destiny.Column == origin.Column - 2)
+            {
+                Position originR = new Position(origin.Row, origin.Column - 4);
+                Position destinyR = new Position(origin.Row, origin.Column - 1);
+                ChessPiece r = Chessboard.RemoveChessPiece(originR);
+                r.IncreaseQuantityMovements();
+                Chessboard.ChessPiecePosition(r, destinyR);
+            }
+
             return capturedPiece;
         }
 
@@ -49,6 +70,26 @@ namespace Project__ChessGame.chess
                 RemovedChessPieces.Remove(capturedPiece);
             }
             Chessboard.ChessPiecePosition(cp, origin);
+
+            // #SpecialMove Small Castle
+            if (cp is King && destiny.Column == origin.Column + 2)
+            {
+                Position originR = new Position(origin.Row, origin.Column + 3);
+                Position destinyR = new Position(origin.Row, origin.Column + 1);
+                ChessPiece r = Chessboard.RemoveChessPiece(destinyR);
+                r.DecrementQuantityMovements();
+                Chessboard.ChessPiecePosition(r, originR);
+            }
+
+            // #SpecialMove Big Castle
+            if (cp is King && destiny.Column == origin.Column - 2)
+            {
+                Position originR = new Position(origin.Row, origin.Column - 4);
+                Position destinyR = new Position(origin.Row, origin.Column - 1);
+                ChessPiece r = Chessboard.RemoveChessPiece(destinyR);
+                r.DecrementQuantityMovements();
+                Chessboard.ChessPiecePosition(r, originR);
+            }
         }
 
         public void DoTheMove(Position origin, Position destiny)
@@ -228,7 +269,7 @@ namespace Project__ChessGame.chess
             NewChessPiecePosition('B', 1, new Knight(Color.White, Chessboard));
             NewChessPiecePosition('C', 1, new Bishop(Color.White, Chessboard));
             NewChessPiecePosition('D', 1, new Queen(Color.White, Chessboard));
-            NewChessPiecePosition('E', 1, new King(Color.White, Chessboard));
+            NewChessPiecePosition('E', 1, new King(Color.White, Chessboard, this));
             NewChessPiecePosition('F', 1, new Bishop(Color.White, Chessboard));
             NewChessPiecePosition('G', 1, new Knight(Color.White, Chessboard));
             NewChessPiecePosition('H', 1, new Rook(Color.White, Chessboard));
@@ -245,7 +286,7 @@ namespace Project__ChessGame.chess
             NewChessPiecePosition('B', 8, new Knight(Color.Black, Chessboard));
             NewChessPiecePosition('C', 8, new Bishop(Color.Black, Chessboard));
             NewChessPiecePosition('D', 8, new Queen(Color.Black, Chessboard));
-            NewChessPiecePosition('E', 8, new King(Color.Black, Chessboard));
+            NewChessPiecePosition('E', 8, new King(Color.Black, Chessboard, this));
             NewChessPiecePosition('F', 8, new Bishop(Color.Black, Chessboard));
             NewChessPiecePosition('G', 8, new Knight(Color.Black, Chessboard));
             NewChessPiecePosition('H', 8, new Rook(Color.Black, Chessboard));

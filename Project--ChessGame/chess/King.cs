@@ -5,8 +5,11 @@ namespace Project__ChessGame.chess
 {
     class King : ChessPiece
     {
-        public King(Color color, Chessboard chessboard) : base(color, chessboard)
+        private ChessMatch Game;
+
+        public King(Color color, Chessboard chessboard, ChessMatch game) : base(color, chessboard)
         {
+            Game = game;
         }
 
         public override string ToString()
@@ -18,6 +21,12 @@ namespace Project__ChessGame.chess
         {
             ChessPiece cp = Chessboard.ChessPiece(position);
             return cp == null || cp.Color != Color;
+        }
+
+        private bool TestRookToCastle(Position position)
+        {
+            ChessPiece cp = Chessboard.ChessPiece(position);
+            return cp != null && cp is Rook && cp.Color == Color && cp.QuantityMovements == 0;
         }
 
         public override bool[,] PossibleMovements()
@@ -81,6 +90,35 @@ namespace Project__ChessGame.chess
             {
                 match[position.Row, position.Column] = true;
             }
+
+            // #SpecialMove Castle
+            if (QuantityMovements == 0 && !Game.Check)
+            {
+                // #SpecialMove Small Castle
+                Position posR1 = new Position(Position.Row, Position.Column + 3);
+                if (TestRookToCastle(posR1))
+                {
+                    Position p1 = new Position(Position.Row, Position.Column + 1);
+                    Position p2 = new Position(Position.Row, Position.Column + 2);
+                    if (Chessboard.ChessPiece(p1) == null && Chessboard.ChessPiece(p2) == null)
+                    {
+                        match[Position.Row, Position.Column + 2] = true;
+                    }
+                }
+                // #SpecialMove Big Castle
+                Position posR2 = new Position(Position.Row, Position.Column - 4);
+                if (TestRookToCastle(posR2))
+                {
+                    Position p1 = new Position(Position.Row, Position.Column - 1);
+                    Position p2 = new Position(Position.Row, Position.Column - 2);
+                    Position p3 = new Position(Position.Row, Position.Column - 3);
+                    if (Chessboard.ChessPiece(p1) == null && Chessboard.ChessPiece(p2) == null && Chessboard.ChessPiece(p3) == null)
+                    {
+                        match[Position.Row, Position.Column - 2] = true;
+                    }
+                }
+            }
+
             return match;
 
         }
