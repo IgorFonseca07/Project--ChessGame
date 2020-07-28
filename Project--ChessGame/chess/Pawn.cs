@@ -5,8 +5,11 @@ namespace Project__ChessGame.chess
 {
     class Pawn : ChessPiece
     {
-        public Pawn(Color color, Chessboard chessboard) : base(color, chessboard)
+        private ChessMatch ChessMatch;
+
+        public Pawn(Color color, Chessboard chessboard, ChessMatch chessMatch) : base(color, chessboard)
         {
+            ChessMatch = chessMatch;
         }
 
         public override string ToString()
@@ -53,6 +56,22 @@ namespace Project__ChessGame.chess
                 {
                     match[position.Row, position.Column] = true;
                 }
+
+                // #SpecialMove En Passant
+                if (Position.Row == 3)
+                {
+                    Position left = new Position(Position.Row, Position.Column - 1);
+                    if (Chessboard.ValidPosition(left) && IsThereEnemy(left) && Chessboard.ChessPiece(left) == ChessMatch.VulnerableEnPassant)
+                    {
+                        match[left.Row - 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Row, Position.Column + 1);
+                    if (Chessboard.ValidPosition(right) && IsThereEnemy(right) && Chessboard.ChessPiece(right) == ChessMatch.VulnerableEnPassant)
+                    {
+                        match[right.Row - 1, right.Column] = true;
+                    }
+                }
+
             }
             else
             {
@@ -76,6 +95,22 @@ namespace Project__ChessGame.chess
                 {
                     match[position.Row, position.Column] = true;
                 }
+
+                // #SpecialMove En Passant
+                if (Position.Row == 4)
+                {
+                    Position left = new Position(Position.Row, Position.Column - 1);
+                    if (Chessboard.ValidPosition(left) && IsThereEnemy(left) && Chessboard.ChessPiece(left) == ChessMatch.VulnerableEnPassant)
+                    {
+                        match[left.Row + 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Row, Position.Column + 1);
+                    if (Chessboard.ValidPosition(right) && IsThereEnemy(right) && Chessboard.ChessPiece(right) == ChessMatch.VulnerableEnPassant)
+                    {
+                        match[right.Row + 1, right.Column] = true;
+                    }
+                }
+
             }
             return match;
         }

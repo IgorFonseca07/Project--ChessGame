@@ -13,6 +13,7 @@ namespace Project__ChessGame.chess
         public bool Check { get; private set; }
         private HashSet<ChessPiece> ChessPieces;
         private HashSet<ChessPiece> RemovedChessPieces;
+        public ChessPiece VulnerableEnPassant { get; private set; }
 
         public ChessMatch()
         {
@@ -23,6 +24,7 @@ namespace Project__ChessGame.chess
             Check = false;
             ChessPieces = new HashSet<ChessPiece>();
             RemovedChessPieces = new HashSet<ChessPiece>();
+            VulnerableEnPassant = null;
             ChessPiecesPositions();
         }
 
@@ -55,6 +57,25 @@ namespace Project__ChessGame.chess
                 ChessPiece r = Chessboard.RemoveChessPiece(originR);
                 r.IncreaseQuantityMovements();
                 Chessboard.ChessPiecePosition(r, destinyR);
+            }
+
+            // #SpecialMove En Passant
+            if (cp is Pawn)
+            {
+                if (origin.Column != destiny.Column && capturedPiece == null)
+                {
+                    Position posP;
+                    if(cp.Color == Color.White)
+                    {
+                        posP = new Position(destiny.Row + 1, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destiny.Row - 1, destiny.Column);
+                    }
+                    capturedPiece = Chessboard.RemoveChessPiece(posP);
+                    RemovedChessPieces.Add(capturedPiece);
+                }
             }
 
             return capturedPiece;
@@ -90,6 +111,25 @@ namespace Project__ChessGame.chess
                 r.DecrementQuantityMovements();
                 Chessboard.ChessPiecePosition(r, originR);
             }
+
+            // #SpecialMove En Passant
+            if (cp is Pawn)
+            {
+                if (origin.Column != destiny.Column && capturedPiece == VulnerableEnPassant)
+                {
+                    ChessPiece pawn = Chessboard.RemoveChessPiece(destiny);
+                    Position posP;
+                    if (cp.Color == Color.White)
+                    {
+                        posP = new Position(3, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(4, destiny.Column);
+                    }
+                    Chessboard.ChessPiecePosition(pawn, posP);
+                }
+            }
         }
 
         public void DoTheMove(Position origin, Position destiny)
@@ -118,6 +158,18 @@ namespace Project__ChessGame.chess
             {
                 Turn++;
                 ChangePlayer();
+            }
+
+            ChessPiece cp = Chessboard.ChessPiece(destiny);
+
+            // #SpecialMove En Passant
+            if (cp is Pawn && (destiny.Row == origin.Row - 2 || destiny.Row == origin.Row + 2))
+            {
+                VulnerableEnPassant = cp;
+            }
+            else
+            {
+                VulnerableEnPassant = null;
             }
         }
 
@@ -273,14 +325,14 @@ namespace Project__ChessGame.chess
             NewChessPiecePosition('F', 1, new Bishop(Color.White, Chessboard));
             NewChessPiecePosition('G', 1, new Knight(Color.White, Chessboard));
             NewChessPiecePosition('H', 1, new Rook(Color.White, Chessboard));
-            NewChessPiecePosition('A', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('B', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('C', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('D', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('E', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('F', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('G', 2, new Pawn(Color.White, Chessboard));
-            NewChessPiecePosition('H', 2, new Pawn(Color.White, Chessboard));
+            NewChessPiecePosition('A', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('B', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('C', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('D', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('E', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('F', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('G', 2, new Pawn(Color.White, Chessboard, this));
+            NewChessPiecePosition('H', 2, new Pawn(Color.White, Chessboard, this));
 
             NewChessPiecePosition('A', 8, new Rook(Color.Black, Chessboard));
             NewChessPiecePosition('B', 8, new Knight(Color.Black, Chessboard));
@@ -290,14 +342,14 @@ namespace Project__ChessGame.chess
             NewChessPiecePosition('F', 8, new Bishop(Color.Black, Chessboard));
             NewChessPiecePosition('G', 8, new Knight(Color.Black, Chessboard));
             NewChessPiecePosition('H', 8, new Rook(Color.Black, Chessboard));
-            NewChessPiecePosition('A', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('B', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('C', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('D', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('E', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('F', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('G', 7, new Pawn(Color.Black, Chessboard));
-            NewChessPiecePosition('H', 7, new Pawn(Color.Black, Chessboard));
+            NewChessPiecePosition('A', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('B', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('C', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('D', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('E', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('F', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('G', 7, new Pawn(Color.Black, Chessboard, this));
+            NewChessPiecePosition('H', 7, new Pawn(Color.Black, Chessboard, this));
         }
     }
 }
