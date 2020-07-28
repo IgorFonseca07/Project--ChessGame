@@ -141,6 +141,21 @@ namespace Project__ChessGame.chess
                 throw new ChessboardException("You cannot put yourself on check!");
             }
 
+            ChessPiece cp = Chessboard.ChessPiece(destiny);
+
+            // #SpecialMove Promotion
+            if (cp is Pawn)
+            {
+                if ((cp.Color == Color.White && destiny.Row == 0) || (cp.Color == Color.Black && destiny.Row == 7))
+                {
+                    cp = Chessboard.RemoveChessPiece(destiny);
+                    ChessPieces.Remove(cp);
+                    ChessPiece queen = new Queen(cp.Color, Chessboard);
+                    Chessboard.ChessPiecePosition(queen, destiny);
+                    ChessPieces.Add(queen);
+                }
+            }
+
             if (IsOnCheck(Opponent(CurrentPlayer)))
             {
                 Check = true;
@@ -159,8 +174,6 @@ namespace Project__ChessGame.chess
                 Turn++;
                 ChangePlayer();
             }
-
-            ChessPiece cp = Chessboard.ChessPiece(destiny);
 
             // #SpecialMove En Passant
             if (cp is Pawn && (destiny.Row == origin.Row - 2 || destiny.Row == origin.Row + 2))
